@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Community</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .login-section {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .login-btn {
+            background: #4285f4;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66,133,244,0.3);
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .stats-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            background: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            color: #4a5568;
+        }
+
+        .tab.active {
+            background: #10b981;
+            color: white;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feed-item {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .feed-content {
+            flex: 1;
+        }
+
+        .feed-user {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .feed-text {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .feed-time {
+            color: #a0aec0;
+            font-size: 0.85em;
+        }
+
+        .goal-card {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .goal-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #10b981, #059669);
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: #f7fafc;
+        }
+
+        .rank {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #10b981;
+            min-width: 40px;
+        }
+
+        .points {
+            margin-left: auto;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .btn {
+            background: #10b981;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #fef3c7;
+            color: #d97706;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Savings Community</h1>
+            <p>Track your savings goals and join challenges with friends</p>
+        </div>
+
+        <!-- Login Section -->
+        <div id="loginSection" class="login-section">
+            <h2 style="margin-bottom: 20px; color: #2d3748;">Welcome to Savings Community</h2>
+            <p style="margin-bottom: 30px; color: #4a5568;">Sign in with Google to start tracking your savings</p>
+            <button class="login-btn" onclick="login()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Sign in with Google
+            </button>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="dashboard">
+            <!-- Stats Card -->
+            <div class="stats-card">
+                <h2 style="font-size: 1.5em; margin-bottom: 10px;">Hello, <span id="userName"></span>!</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">£<span id="totalSaved">0</span></div>
+                        <div class="stat-label">Total Saved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value"><span id="currentStreak">0</span> 🔥</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value"><span id="activeGoals">0</span></div>
+                        <div class="stat-label">Active Goals</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('feed')">Feed</button>
+                <button class="tab" onclick="showTab('goals')">My Goals</button>
+                <button class="tab" onclick="showTab('leaderboard')">Leaderboard</button>
+                <button class="tab" onclick="showTab('addGoal')">Add Goal</button>
+                <button class="tab" onclick="showTab('addSacrifice')">Log Save</button>
+            </div>
+
+            <!-- Feed Tab -->
+            <div id="feedTab" class="content-card">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">Community Feed</h2>
+                <div id="feedContent"></div>
+            </div>
+
+            <!-- Goals Tab -->
+            <div id="goalsTab" class="content-card" style="display: none;">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">My Goals</h2>
+                <div id="goalsContent"></div>
+            </div>
+
+            <!-- Leaderboard Tab -->
+            <div id="leaderboardTab" class="content-card" style="display: none;">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">Top Savers</h2>
+                <div id="leaderboardContent"></div>
+            </div>
+
+            <!-- Add Goal Tab -->
+            <div id="addGoalTab" class="content-card" style="display: none;">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">Create New Goal</h2>
+                <div class="form-group">
+                    <label>Goal Title</label>
+                    <input type="text" id="goalTitle" placeholder="e.g., Concert Tickets">
+                </div>
+                <div class="form-group">
+                    <label>Target Amount (£)</label>
+                    <input type="number" id="goalAmount" placeholder="180">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <input type="text" id="goalCategory" placeholder="Entertainment">
+                </div>
+                <button class="btn" onclick="createGoal()">Create Goal</button>
+            </div>
+
+            <!-- Add Sacrifice Tab -->
+            <div id="addSacrificeTab" class="content-card" style="display: none;">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">Log a Save</h2>
+                <div class="form-group">
+                    <label>What did you skip?</label>
+                    <input type="text" id="sacrificeTitle" placeholder="e.g., Skipped Latte">
+                </div>
+                <div class="form-group">
+                    <label>Amount Saved (£)</label>
+                    <input type="number" step="0.01" id="sacrificeAmount" placeholder="4.50">
+                </div>
+                <button class="btn" onclick="logSacrifice()">Log Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let token = null;
+
+        // Check for token in URL
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            token = urlParams.get('token');
+            
+            if (token) {
+                localStorage.setItem('token', token);
+                window.history.replaceState({}, document.title, "/");
+                loadDashboard();
+            } else {
+                token = localStorage.getItem('token');
+                if (token) {
+                    loadDashboard();
+                }
+            }
+        };
+
+        function login() {
+            window.location.href = '/auth/google/login';
+        }
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/dashboard', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Failed to load dashboard');
+                
+                const data = await response.json();
+                
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'block';
+                
+                document.getElementById('userName').textContent = data.user.name;
+                document.getElementById('totalSaved').textContent = data.user.total_saved.toFixed(2);
+                document.getElementById('currentStreak').textContent = data.user.current_streak;
+                document.getElementById('activeGoals').textContent = data.goals.length;
+                
+                displayGoals(data.goals);
+                loadFeed();
+                loadLeaderboard();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                localStorage.removeItem('token');
+                location.reload();
+            }
+        }
+
+        async function loadFeed() {
+            const response = await fetch('/api/feed');
+            const events = await response.json();
+            
+            const feedContent = document.getElementById('feedContent');
+            feedContent.innerHTML = events.map(event => {
+                let text = '';
+                if (event.event_type === 'goal_created') {
+                    text = `created a new goal: <strong>${event.event_data.title}</strong>`;
+                } else if (event.event_type === 'sacrifice_logged') {
+                    text = `${event.event_data.title} for <strong>${event.event_data.days} days</strong> in a row!`;
+                }
+                
+                return `
+                    <div class="feed-item">
+                        <img src="${event.avatar_url}" alt="${event.name}" class="avatar">
+                        <div class="feed-content">
+                            <div class="feed-user">${event.name}</div>
+                            <div class="feed-text">${text}</div>
+                            <div class="feed-time">${new Date(event.created_at).toLocaleDateString()}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function displayGoals(goals) {
+            const goalsContent = document.getElementById('goalsContent');
+            goalsContent.innerHTML = goals.map(goal => {
+                const progress = (goal.current_amount / goal.target_amount * 100).toFixed(1);
+                return `
+                    <div class="goal-card">
+                        <div class="goal-title">${goal.title}</div>
+                        <div>Target: £${goal.target_amount} | Saved: £${goal.current_amount}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="text-align: right; color: #10b981; font-weight: 600;">${progress}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function loadLeaderboard() {
+            const response = await fetch('/api/leaderboard');
+            const leaders = await response.json();
+            
+            const leaderboardContent = document.getElementById('leaderboardContent');
+            leaderboardContent.innerHTML = leaders.map((user, index) => `
+                <div class="leaderboard-item">
+                    <div class="rank">${index + 1}</div>
+                    <img src="${user.avatar_url}" alt="${user.name}" class="avatar">
+                    <div>
+                        <div style="font-weight: 600;">${user.name}</div>
+                        <div class="streak-badge">🔥 ${user.current_streak} days</div>
+                    </div>
+                    <div class="points">£${user.total_saved.toFixed(2)}</div>
+                </div>
+            `).join('');
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content-card').forEach(c => c.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+        }
+
+        async function createGoal() {
+            const title = document.getElementById('goalTitle').value;
+            const amount = document.getElementById('goalAmount').value;
+            const category = document.getElementById('goalCategory').value;
+            
+            const response = await fetch('/api/goals', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title,
+                    target_amount: parseFloat(amount),
+                    category: category
+                })
+            });
+            
+            if (response.ok) {
+                alert('Goal created!');
+                loadDashboard();
+                showTab('goals');
+            }
+        }
+
+        async function logSacrifice() {
+            const title = document.getElementById('sacrificeTitle').value;
+            const amount = document.getElementById('sacrificeAmount').value;
+            
+            const response = await fetch('/api/sacrifices', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title,
+                    amount: parseFloat(amount)
+                })
+            });
+            
+            if (response.ok) {
+                alert('Save logged! Keep up the streak!');
+                loadDashboard();
+                showTab('feed');
+            }
+        }
+    </script>
+</body>
+</html>
