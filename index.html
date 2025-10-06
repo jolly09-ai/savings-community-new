@@ -118,6 +118,7 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            position: relative;
         }
 
         .user-avatar {
@@ -125,6 +126,58 @@
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .user-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 60px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            min-width: 220px;
+            z-index: 1000;
+        }
+
+        .user-menu.show {
+            display: block;
+        }
+
+        .menu-user-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .menu-user-email {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            background: #ef4444;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
         }
 
         .container {
@@ -465,8 +518,12 @@
                 <div class="header-title">💰 Savings Community</div>
             </div>
             <div class="header-right">
-                <img id="userAvatar" src="" alt="User" class="user-avatar" style="cursor: pointer;" onclick="showUserMenu()" title="Click for menu">
-                <button onclick="logout()" style="background: #ef4444; color: white; padding: 8px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Logout</button>
+                <img id="userAvatar" src="" alt="User" class="user-avatar" onclick="toggleUserMenu()">
+                <div id="userMenu" class="user-menu">
+                    <div class="menu-user-name" id="menuUserName"></div>
+                    <div class="menu-user-email" id="menuUserEmail"></div>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
             </div>
         </div>
 
@@ -580,6 +637,20 @@
             location.reload();
         }
 
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('userMenu');
+            const avatar = document.getElementById('userAvatar');
+            if (menu && avatar && !menu.contains(event.target) && event.target !== avatar) {
+                menu.classList.remove('show');
+            }
+        });
+
         async function loadDashboard() {
             try {
                 const response = await fetch('/api/dashboard', {
@@ -595,6 +666,8 @@
                 
                 document.getElementById('userName').textContent = data.user.name;
                 document.getElementById('userAvatar').src = data.user.avatar_url;
+                document.getElementById('menuUserName').textContent = data.user.name;
+                document.getElementById('menuUserEmail').textContent = data.user.email;
                 document.getElementById('totalSaved').textContent = data.user.total_saved.toFixed(2);
                 document.getElementById('currentStreak').textContent = data.user.current_streak;
                 document.getElementById('activeGoals').textContent = data.goals.length;
