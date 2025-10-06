@@ -268,10 +268,9 @@
 </head>
 <body>
     <div class="container">
-        <div class="header" style="position: relative;">
+        <div class="header">
             <h1>💰 Savings Community</h1>
             <p>Track your savings goals and join challenges with friends</p>
-            <button onclick="logout()" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Logout</button>
         </div>
 
         <!-- Login Section -->
@@ -291,6 +290,8 @@
 
         <!-- Dashboard Section -->
         <div id="dashboardSection" class="dashboard">
+            <button onclick="logout()" style="position: fixed; top: 30px; right: 30px; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Logout</button>
+            
             <!-- Stats Card -->
             <div class="stats-card">
                 <h2 style="font-size: 1.5em; margin-bottom: 10px;">Hello, <span id="userName"></span>!</h2>
@@ -374,7 +375,6 @@
     <script>
         let token = null;
 
-        // Check for token in URL
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             token = urlParams.get('token');
@@ -491,6 +491,7 @@
             event.target.classList.add('active');
             document.getElementById(tabName + 'Tab').style.display = 'block';
         }
+        
         function logout() {
             localStorage.removeItem('token');
             alert('Logged out successfully!');
