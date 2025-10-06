@@ -5,145 +5,236 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Community</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
             min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+        }
+
+        .login-card h1 {
+            font-size: 32px;
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .login-card p {
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .google-btn {
+            background: white;
+            border: 2px solid #e5e7eb;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+            color: #1f2937;
+        }
+
+        .google-btn:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            min-height: 100vh;
+            background: #f5f7fa;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 24px;
         }
 
-        .header {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .header h1 {
-            color: #2d3748;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .login-section {
-            background: white;
-            border-radius: 20px;
-            padding: 60px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .login-btn {
-            background: #4285f4;
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-
-        .login-btn:hover {
-            background: #357ae8;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(66,133,244,0.3);
-        }
-
-        .dashboard {
-            display: none;
-        }
-
+        /* Stats Card */
         .stats-card {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-            color: white;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 32px;
+            margin-bottom: 24px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .stats-greeting {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
         }
 
         .stat-item {
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .stat-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
         .stat-label {
+            font-size: 14px;
             opacity: 0.9;
-            font-size: 0.9em;
         }
 
+        /* Tabs */
         .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 4px;
         }
 
         .tab {
             background: white;
-            padding: 15px 30px;
             border: none;
-            border-radius: 10px;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
-            color: #4a5568;
+            color: #6b7280;
+            white-space: nowrap;
         }
 
         .tab.active {
             background: #10b981;
             color: white;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
+        /* Content Cards */
         .content-card {
             background: white;
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        /* Feed Items */
         .feed-item {
-            padding: 20px;
-            border-bottom: 1px solid #e2e8f0;
             display: flex;
-            align-items: center;
-            gap: 15px;
+            gap: 16px;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #f9fafb;
+            transition: all 0.2s;
         }
 
-        .feed-item:last-child {
-            border-bottom: none;
+        .feed-item:hover {
+            background: #f3f4f6;
         }
 
-        .avatar {
-            width: 50px;
-            height: 50px;
+        .feed-avatar {
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -154,97 +245,169 @@
 
         .feed-user {
             font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
+            color: #1f2937;
+            margin-bottom: 4px;
         }
 
         .feed-text {
-            color: #4a5568;
+            color: #4b5563;
             line-height: 1.5;
+            margin-bottom: 4px;
         }
 
         .feed-time {
-            color: #a0aec0;
-            font-size: 0.85em;
+            font-size: 13px;
+            color: #9ca3af;
         }
 
+        /* Goal Cards */
         .goal-card {
-            background: #f7fafc;
+            background: #f9fafb;
+            border-radius: 16px;
             padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .goal-title {
-            font-size: 1.2em;
+            font-size: 18px;
             font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .goal-category {
+            font-size: 13px;
+            color: #10b981;
+            background: #d1fae5;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .goal-amounts {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
         }
 
         .progress-bar {
-            background: #e2e8f0;
-            height: 10px;
-            border-radius: 5px;
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
             overflow: hidden;
-            margin: 10px 0;
+            margin-bottom: 8px;
         }
 
         .progress-fill {
             background: linear-gradient(90deg, #10b981, #059669);
             height: 100%;
-            transition: width 0.3s;
+            transition: width 0.5s;
         }
 
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background: #f7fafc;
-        }
-
-        .rank {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #10b981;
-            min-width: 40px;
-        }
-
-        .points {
-            margin-left: auto;
+        .progress-text {
+            text-align: right;
+            font-size: 14px;
             font-weight: 600;
             color: #10b981;
         }
 
+        /* Leaderboard */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #f9fafb;
+        }
+
+        .rank {
+            font-size: 20px;
+            font-weight: 700;
+            color: #10b981;
+            min-width: 32px;
+        }
+
+        .rank-1 { color: #f59e0b; }
+        .rank-2 { color: #9ca3af; }
+        .rank-3 { color: #cd7f32; }
+
+        .leaderboard-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .streak-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #fef3c7;
+            color: #d97706;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .leaderboard-points {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        /* Forms */
         .form-group {
             margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
             font-weight: 600;
-            color: #2d3748;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
         .btn {
             background: #10b981;
             color: white;
-            padding: 12px 30px;
+            padding: 14px 32px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -252,49 +415,64 @@
         .btn:hover {
             background: #059669;
             transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
         }
 
-        .streak-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #fef3c7;
-            color: #d97706;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 600;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 18px;
+            }
+
+            .stats-greeting {
+                font-size: 20px;
+            }
+
+            .tabs {
+                gap: 4px;
+            }
+
+            .tab {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>💰 Savings Community</h1>
+    <!-- Login Screen -->
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <div class="login-icon">💰</div>
+            <h1>Savings Community</h1>
             <p>Track your savings goals and join challenges with friends</p>
-        </div>
-
-        <!-- Login Section -->
-        <div id="loginSection" class="login-section">
-            <h2 style="margin-bottom: 20px; color: #2d3748;">Welcome to Savings Community</h2>
-            <p style="margin-bottom: 30px; color: #4a5568;">Sign in with Google to start tracking your savings</p>
-            <button class="login-btn" onclick="login()">
+            <button class="google-btn" onclick="login()">
                 <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
                 Sign in with Google
             </button>
         </div>
+    </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboardSection" class="dashboard">
-            <button onclick="logout()" style="position: fixed; top: 30px; right: 30px; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Logout</button>
-            
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="dashboard">
+        <div class="header">
+            <div class="header-left">
+                <div class="header-title">💰 Savings Community</div>
+            </div>
+            <div class="header-right">
+                <img id="userAvatar" src="" alt="User" class="user-avatar">
+            </div>
+        </div>
+
+        <div class="container">
             <!-- Stats Card -->
             <div class="stats-card">
-                <h2 style="font-size: 1.5em; margin-bottom: 10px;">Hello, <span id="userName"></span>!</h2>
+                <div class="stats-greeting">Hello, <span id="userName"></span>! 👋</div>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <div class="stat-value">£<span id="totalSaved">0</span></div>
@@ -322,25 +500,25 @@
 
             <!-- Feed Tab -->
             <div id="feedTab" class="content-card">
-                <h2 style="margin-bottom: 20px; color: #2d3748;">Community Feed</h2>
+                <div class="card-title">Community Feed</div>
                 <div id="feedContent"></div>
             </div>
 
             <!-- Goals Tab -->
             <div id="goalsTab" class="content-card" style="display: none;">
-                <h2 style="margin-bottom: 20px; color: #2d3748;">My Goals</h2>
+                <div class="card-title">My Savings Goals</div>
                 <div id="goalsContent"></div>
             </div>
 
             <!-- Leaderboard Tab -->
             <div id="leaderboardTab" class="content-card" style="display: none;">
-                <h2 style="margin-bottom: 20px; color: #2d3748;">Top Savers</h2>
+                <div class="card-title">🏆 Top Savers</div>
                 <div id="leaderboardContent"></div>
             </div>
 
             <!-- Add Goal Tab -->
             <div id="addGoalTab" class="content-card" style="display: none;">
-                <h2 style="margin-bottom: 20px; color: #2d3748;">Create New Goal</h2>
+                <div class="card-title">Create New Goal</div>
                 <div class="form-group">
                     <label>Goal Title</label>
                     <input type="text" id="goalTitle" placeholder="e.g., Concert Tickets">
@@ -358,7 +536,7 @@
 
             <!-- Add Sacrifice Tab -->
             <div id="addSacrificeTab" class="content-card" style="display: none;">
-                <h2 style="margin-bottom: 20px; color: #2d3748;">Log a Save</h2>
+                <div class="card-title">Log a Save</div>
                 <div class="form-group">
                     <label>What did you skip?</label>
                     <input type="text" id="sacrificeTitle" placeholder="e.g., Skipped Latte">
@@ -409,6 +587,7 @@
                 document.getElementById('dashboardSection').style.display = 'block';
                 
                 document.getElementById('userName').textContent = data.user.name;
+                document.getElementById('userAvatar').src = data.user.avatar_url;
                 document.getElementById('totalSaved').textContent = data.user.total_saved.toFixed(2);
                 document.getElementById('currentStreak').textContent = data.user.current_streak;
                 document.getElementById('activeGoals').textContent = data.goals.length;
@@ -433,12 +612,12 @@
                 if (event.event_type === 'goal_created') {
                     text = `created a new goal: <strong>${event.event_data.title}</strong>`;
                 } else if (event.event_type === 'sacrifice_logged') {
-                    text = `${event.event_data.title} for <strong>${event.event_data.days} days</strong> in a row!`;
+                    text = `${event.event_data.title} for <strong>${event.event_data.days} days</strong> in a row! 🎯`;
                 }
                 
                 return `
                     <div class="feed-item">
-                        <img src="${event.avatar_url}" alt="${event.name}" class="avatar">
+                        <img src="${event.avatar_url}" alt="${event.name}" class="feed-avatar">
                         <div class="feed-content">
                             <div class="feed-user">${event.name}</div>
                             <div class="feed-text">${text}</div>
@@ -451,16 +630,24 @@
 
         function displayGoals(goals) {
             const goalsContent = document.getElementById('goalsContent');
+            if (goals.length === 0) {
+                goalsContent.innerHTML = '<p style="color: #6b7280; text-align: center; padding: 40px;">No goals yet. Create one to get started!</p>';
+                return;
+            }
+            
             goalsContent.innerHTML = goals.map(goal => {
                 const progress = (goal.current_amount / goal.target_amount * 100).toFixed(1);
                 return `
                     <div class="goal-card">
-                        <div class="goal-title">${goal.title}</div>
-                        <div>Target: £${goal.target_amount} | Saved: £${goal.current_amount}</div>
+                        <div class="goal-header">
+                            <div class="goal-title">${goal.title}</div>
+                            <div class="goal-category">${goal.category}</div>
+                        </div>
+                        <div class="goal-amounts">£${goal.current_amount.toFixed(2)} of £${goal.target_amount.toFixed(2)}</div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${progress}%"></div>
                         </div>
-                        <div style="text-align: right; color: #10b981; font-weight: 600;">${progress}%</div>
+                        <div class="progress-text">${progress}%</div>
                     </div>
                 `;
             }).join('');
@@ -473,13 +660,13 @@
             const leaderboardContent = document.getElementById('leaderboardContent');
             leaderboardContent.innerHTML = leaders.map((user, index) => `
                 <div class="leaderboard-item">
-                    <div class="rank">${index + 1}</div>
-                    <img src="${user.avatar_url}" alt="${user.name}" class="avatar">
-                    <div>
-                        <div style="font-weight: 600;">${user.name}</div>
+                    <div class="rank rank-${index + 1}">${index + 1}</div>
+                    <img src="${user.avatar_url}" alt="${user.name}" class="leaderboard-avatar">
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">${user.name}</div>
                         <div class="streak-badge">🔥 ${user.current_streak} days</div>
                     </div>
-                    <div class="points">£${user.total_saved.toFixed(2)}</div>
+                    <div class="leaderboard-points">£${user.total_saved.toFixed(2)}</div>
                 </div>
             `).join('');
         }
@@ -491,17 +678,16 @@
             event.target.classList.add('active');
             document.getElementById(tabName + 'Tab').style.display = 'block';
         }
-        
-        function logout() {
-            localStorage.removeItem('token');
-            alert('Logged out successfully!');
-            location.reload();
-        }
 
         async function createGoal() {
             const title = document.getElementById('goalTitle').value;
             const amount = document.getElementById('goalAmount').value;
             const category = document.getElementById('goalCategory').value;
+            
+            if (!title || !amount) {
+                alert('Please fill in all fields');
+                return;
+            }
             
             const response = await fetch('/api/goals', {
                 method: 'POST',
@@ -512,12 +698,15 @@
                 body: JSON.stringify({
                     title: title,
                     target_amount: parseFloat(amount),
-                    category: category
+                    category: category || 'General'
                 })
             });
             
             if (response.ok) {
-                alert('Goal created!');
+                alert('Goal created! 🎯');
+                document.getElementById('goalTitle').value = '';
+                document.getElementById('goalAmount').value = '';
+                document.getElementById('goalCategory').value = '';
                 loadDashboard();
                 showTab('goals');
             }
@@ -526,6 +715,11 @@
         async function logSacrifice() {
             const title = document.getElementById('sacrificeTitle').value;
             const amount = document.getElementById('sacrificeAmount').value;
+            
+            if (!title || !amount) {
+                alert('Please fill in all fields');
+                return;
+            }
             
             const response = await fetch('/api/sacrifices', {
                 method: 'POST',
@@ -540,7 +734,10 @@
             });
             
             if (response.ok) {
-                alert('Save logged! Keep up the streak!');
+                const data = await response.json();
+                alert(`Save logged! Keep up the streak! 🔥 (${data.days} days)`);
+                document.getElementById('sacrificeTitle').value = '';
+                document.getElementById('sacrificeAmount').value = '';
                 loadDashboard();
                 showTab('feed');
             }
