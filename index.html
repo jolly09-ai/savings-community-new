@@ -271,6 +271,7 @@
         <div class="header">
             <h1>💰 Savings Community</h1>
             <p>Track your savings goals and join challenges with friends</p>
+            <button onclick="logout()" style="position: absolute; top: 20px; right: 20px; padding: 10px 20px; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Logout</button>
         </div>
 
         <!-- Login Section -->
@@ -489,6 +490,11 @@
             
             event.target.classList.add('active');
             document.getElementById(tabName + 'Tab').style.display = 'block';
+        }
+        function logout() {
+            localStorage.removeItem('token');
+            alert('Logged out successfully!');
+            location.reload();
         }
 
         async function createGoal() {
