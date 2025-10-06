@@ -465,7 +465,8 @@
                 <div class="header-title">💰 Savings Community</div>
             </div>
             <div class="header-right">
-                <img id="userAvatar" src="" alt="User" class="user-avatar">
+                <img id="userAvatar" src="" alt="User" class="user-avatar" style="cursor: pointer;" onclick="showUserMenu()" title="Click for menu">
+                <button onclick="logout()" style="background: #ef4444; color: white; padding: 8px 16px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Logout</button>
             </div>
         </div>
 
@@ -571,6 +572,12 @@
 
         function login() {
             window.location.href = '/auth/google/login';
+        }
+        
+        function logout() {
+            localStorage.removeItem('token');
+            token = null;
+            location.reload();
         }
 
         async function loadDashboard() {
